@@ -28,6 +28,32 @@ class Board:
     def __str__(self):
         """Возвращает строковое представление объекта поля."""
         return f'Объект игрового поля размером {self.field_size}x{self.field_size}'
+    # Этот метод проверяет, заполнено ли поле полностью
+    def is_board_full(self):
+       for i in range(self.field_size):
+           for j in range(self.field_size):
+               if self.board[i][j] == ' ':
+                   return False # Если найдена пустая ячейка, поле не заполнено
+
+       return True  # Если все ячейки заполнены, возвращаем True
+
+    # Этот метод для проверки победителя
+    def check_winner(self, player):
+        for i in range(self.field_size):
+            # Проверка строк
+            if all(self.board[i][j] == player for j in range(self.field_size)):
+                return True
+            # Проверка столбцов
+            if all(self.board[j][i] == player for j in range(self.field_size)):
+                return True
+        # Проверка диагоналей
+        if all(self.board[i][i] == player for i in range(self.field_size)):
+            return True
+        # Проверка обратной диагонали
+        if all(self.board[i][self.field_size - 1 - i] == player for i in range(self.field_size)):
+            return True
+        return False # Если ни одна из проверок не прошла, возвращаем False
+
 
 
 # === Ниже — демонстрация работы класса Board ===

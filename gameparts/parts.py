@@ -1,72 +1,27 @@
-# Модуль для работы с игровым полем игры "Крестики-нолики".
-
 class Board:
-    """Класс для представления игрового поля в 'крестиках-ноликах'.
-
-    Хранит состояние игрового поля, позволяет делать ходы и отображать поле.
-    Размер поля задаётся атрибутом класса field_size.
-    """
-
-    field_size = 3  # Размер игрового поля (3x3 для крестиков-ноликов)
+    field_size = 3
 
     def __init__(self):
-        """Создаёт пустое игровое поле — список списков с пробелами."""
         self.board = [[' ' for _ in range(self.field_size)] for _ in range(self.field_size)]
 
     def make_move(self, row, col, player):
-        """Размещает символ игрока ('X' или 'O') на игровом поле
-        по координатам row и col.
-        """
         self.board[row][col] = player
 
-    def display(self):
-        """Выводит текущее состояние игрового поля в терминал."""
-        for row in self.board:
-            print('|'.join(row))
-            print('-' * 5)
-
-    def __str__(self):
-        """Возвращает строковое представление объекта поля."""
-        return f'Объект игрового поля размером {self.field_size}x{self.field_size}'
-    # Этот метод проверяет, заполнено ли поле полностью
-    def is_board_full(self):
-       for i in range(self.field_size):
-           for j in range(self.field_size):
-               if self.board[i][j] == ' ':
-                   return False # Если найдена пустая ячейка, поле не заполнено
-
-       return True  # Если все ячейки заполнены, возвращаем True
-
-    # Этот метод для проверки победителя
     def check_winner(self, player):
         for i in range(self.field_size):
-            # Проверка строк
             if all(self.board[i][j] == player for j in range(self.field_size)):
                 return True
-            # Проверка столбцов
             if all(self.board[j][i] == player for j in range(self.field_size)):
                 return True
-        # Проверка диагоналей
         if all(self.board[i][i] == player for i in range(self.field_size)):
             return True
-        # Проверка обратной диагонали
         if all(self.board[i][self.field_size - 1 - i] == player for i in range(self.field_size)):
             return True
-        return False # Если ни одна из проверок не прошла, возвращаем False
+        return False
 
-
-
-# === Ниже — демонстрация работы класса Board ===
-
-# Создаём игровое поле
-game = Board()
-
-# Отрисовываем пустое поле
-game.display()
-
-# Делаем ход (ставим 'X' в центр)
-game.make_move(1, 1, 'X')
-print('Ход сделан!')
-
-# Отрисовываем поле после хода
-game.display()
+    def is_board_full(self):
+        for row in self.board:
+            for cell in row:
+                if cell == ' ':
+                    return False
+        return True
